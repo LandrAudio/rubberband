@@ -42,5 +42,5 @@ The following instructions were only tested on macOS and are not expected to wor
     ```
     + Then generate the bindings:
         ```
-        emcc --bind -o rubberband.js rubberband-js/Exports.cpp -I. -Llib -L/usr/local/em/lib -lrubberband -lfftw3 -lsamplerate
+        emcc -O2 --bind -o rubberband.js rubberband-js/Exports.cpp -I. -Llib -L/usr/local/em/lib -lrubberband -lfftw3 -lsamplerate
         ```
