@@ -16,5 +16,5 @@ The following instructions were only tested on macOS and are not expected to wor
     ```
     + Then generate the bindings:
         ```
-        emcc -O3 --llvm-opts 3 --llvm-lto 3 --closure 1 --bind -o rubberband.js rubberband-js/Exports.cpp -I. -Llib -lrubberband
+        emcc --bind -o rubberband.js rubberband-js/Exports.cpp -I. -Llib -lrubberband
         ```
