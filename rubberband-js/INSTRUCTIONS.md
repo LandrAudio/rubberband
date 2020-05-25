@@ -11,14 +11,14 @@ The following instructions were only tested on macOS and are not expected to wor
 
 1. Create a new folder that we'll use to install the executables compiled with Emscripten:
     ```
-    sudo touch /usr/local/em
+    sudo mkdir /usr/local/em
     ```
 
 1. Build fftw3 with Emscripten and install it to `/usr/local/em`:
     ```
     curl http://fftw.org/fftw-3.3.8.tar.gz -O fftw-3.3.8.tar.gz
     tar -xzf fftw-3.3.8.tar.gz
-    cd fftw3-3.3.8
+    cd fftw-3.3.8
     emconfigure ./configure --prefix=/usr/local/em --disable-shared
     emmake make
     sudo emmake make install
@@ -42,5 +42,5 @@ The following instructions were only tested on macOS and are not expected to wor
     ```
     + Then generate the bindings:
         ```
-        emcc -O2 --bind -o rubberband.js rubberband-js/Exports.cpp -I. -Llib -L/usr/local/em/lib -lrubberband -lfftw3 -lsamplerate
+        emcc --bind -o rubberband.js rubberband-js/Exports.cpp -I. -Llib -L/usr/local/em/lib -lrubberband -lfftw3 -lsamplerate
         ```
