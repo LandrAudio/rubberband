@@ -37,7 +37,7 @@ The following instructions were only tested on macOS and are not expected to wor
 
 1. Build rubberband with Emscripten, using the libraries built in the previous steps:
     ```
-    emconfigure ./configure --prefix=/usr/local/em PKG_CONFIG_PATH=/usr/local/em/lib/pkgconfig --disable-vamp --disable-programs --disable-ladspa
+    emconfigure ./configure --prefix=/usr/local/em PKG_CONFIG_PATH=/usr/local/em/lib/pkgconfig CXXFLAGS='-DNO_THREADING -DNO_FILESYSTEM' --disable-vamp --disable-programs --disable-ladspa
     emmake make
     ```
     + Then generate the bindings:

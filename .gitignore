@@ -1,0 +1,12 @@
+.vscode/
+lib/
+*.o
+*.out*
+*.log
+*.status
+Makefile*
+*.js
+*.wasm
+*.map
+*.wat
+.DS_Store
