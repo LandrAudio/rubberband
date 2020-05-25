@@ -31,13 +31,35 @@ AC_ARG_ENABLE(ladspa,
 )
 AC_SUBST(WITH_LADSPA)
 
+AC_ARG_ENABLE(kissfft,
+  [  --enable-kissfft          enable compilation of KissFFT],
+  [case "${enableval}" in
+     yes | no ) WITH_KISSFFT="${enableval}" ;;
+     *) AC_MSG_ERROR(bad value ${enableval} for --enable-kissfft) ;;
+   esac],
+  [WITH_KISSFFT="no"]
+)
+AC_SUBST(WITH_KISSFFT)
+
+AC_ARG_ENABLE(speex,
+  [  --enable-speex          enable compilation of Speex],
+  [case "${enableval}" in
+     yes | no ) WITH_SPEEX="${enableval}" ;;
+     *) AC_MSG_ERROR(bad value ${enableval} for --enable-speex) ;;
+   esac],
+  [WITH_SPEEX="no"]
+)
+AC_SUBST(WITH_SPEEX)
+
 AC_CONFIG_SRCDIR(src/StretcherImpl.h)
 AC_PROG_CXX
 AC_PROG_CC
 AC_HEADER_STDC
 AC_C_BIGENDIAN
 
-PKG_CHECK_MODULES([SRC],[samplerate])
+if test "x$WITH_SPEEX" = "xno"; then
+  PKG_CHECK_MODULES([SRC],[samplerate])
+fi
 AC_SUBST(SRC_CFLAGS)
 AC_SUBST(SRC_LIBS)
 
@@ -47,7 +69,9 @@ fi
 AC_SUBST(SNDFILE_CFLAGS)
 AC_SUBST(SNDFILE_LIBS)
 
-PKG_CHECK_MODULES([FFTW],[fftw3])
+if test "x$WITH_KISSFFT" = "xno"; then
+  PKG_CHECK_MODULES([FFTW],[fftw3])
+fi
 AC_SUBST(FFTW_CFLAGS)
 AC_SUBST(FFTW_LIBS)
 

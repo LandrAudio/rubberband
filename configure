@@ -648,6 +648,8 @@ CPPFLAGS
 LDFLAGS
 CXXFLAGS
 CXX
+WITH_SPEEX
+WITH_KISSFFT
 WITH_LADSPA
 WITH_VAMP
 WITH_PROGRAMS
@@ -695,6 +697,8 @@ enable_option_checking
 enable_programs
 enable_vamp
 enable_ladspa
+enable_kissfft
+enable_speex
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1331,6 +1335,8 @@ Optional Features:
   --disable-programs      disable compilation of programs
   --disable-vamp          disable compilation of Vamp plugin
   --disable-ladspa        disable compilation of LADSPA plugin
+  --enable-kissfft          enable compilation of KissFFT
+  --enable-speex          enable compilation of Speex
 
 Some influential environment variables:
   CXX         C++ compiler command
@@ -2102,6 +2108,32 @@ if test "${enable_ladspa+set}" = set; then :
    esac
 else
   WITH_LADSPA="yes"
+
+fi
+
+
+
+# Check whether --enable-kissfft was given.
+if test "${enable_kissfft+set}" = set; then :
+  enableval=$enable_kissfft; case "${enableval}" in
+     yes | no ) WITH_KISSFFT="${enableval}" ;;
+     *) as_fn_error $? "bad value ${enableval} for --enable-kissfft" "$LINENO" 5 ;;
+   esac
+else
+  WITH_KISSFFT="no"
+
+fi
+
+
+
+# Check whether --enable-speex was given.
+if test "${enable_speex+set}" = set; then :
+  enableval=$enable_speex; case "${enableval}" in
+     yes | no ) WITH_SPEEX="${enableval}" ;;
+     *) as_fn_error $? "bad value ${enableval} for --enable-speex" "$LINENO" 5 ;;
+   esac
+else
+  WITH_SPEEX="no"
 
 fi
 
@@ -3777,6 +3809,7 @@ $as_echo "#define AC_APPLE_UNIVERSAL_BUILD 1" >>confdefs.h
  esac
 
 
+if test "x$WITH_SPEEX" = "xno"; then
 
 
 
@@ -3899,8 +3932,8 @@ $as_echo "no" >&6; }
 fi
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for SRC" >&5
-$as_echo_n "checking for SRC... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for samplerate" >&5
+$as_echo_n "checking for samplerate... " >&6; }
 
 if test -n "$SRC_CFLAGS"; then
     pkg_cv_SRC_CFLAGS="$SRC_CFLAGS"
@@ -3940,7 +3973,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -3967,7 +4000,7 @@ Alternatively, you may set the environment variables SRC_CFLAGS
 and SRC_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
@@ -3988,14 +4021,15 @@ else
 $as_echo "yes" >&6; }
 
 fi
+fi
 
 
 
 if test "x$WITH_PROGRAMS" = "xyes"; then
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for SNDFILE" >&5
-$as_echo_n "checking for SNDFILE... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for sndfile" >&5
+$as_echo_n "checking for sndfile... " >&6; }
 
 if test -n "$SNDFILE_CFLAGS"; then
     pkg_cv_SNDFILE_CFLAGS="$SNDFILE_CFLAGS"
@@ -4035,7 +4069,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -4062,7 +4096,7 @@ Alternatively, you may set the environment variables SNDFILE_CFLAGS
 and SNDFILE_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
@@ -4087,10 +4121,11 @@ fi
 
 
 
+if test "x$WITH_KISSFFT" = "xno"; then
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for FFTW" >&5
-$as_echo_n "checking for FFTW... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for fftw3" >&5
+$as_echo_n "checking for fftw3... " >&6; }
 
 if test -n "$FFTW_CFLAGS"; then
     pkg_cv_FFTW_CFLAGS="$FFTW_CFLAGS"
@@ -4130,7 +4165,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -4157,7 +4192,7 @@ Alternatively, you may set the environment variables FFTW_CFLAGS
 and FFTW_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
@@ -4177,6 +4212,7 @@ else
         { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
 
+fi
 fi
 
 
@@ -4211,8 +4247,8 @@ done
 if test "x$WITH_VAMP" = "xyes"; then
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for Vamp" >&5
-$as_echo_n "checking for Vamp... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for vamp-sdk" >&5
+$as_echo_n "checking for vamp-sdk... " >&6; }
 
 if test -n "$Vamp_CFLAGS"; then
     pkg_cv_Vamp_CFLAGS="$Vamp_CFLAGS"
@@ -4252,7 +4288,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -4279,7 +4315,7 @@ Alternatively, you may set the environment variables Vamp_CFLAGS
 and Vamp_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}

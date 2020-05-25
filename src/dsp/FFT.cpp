@@ -1725,7 +1725,6 @@ public:
         if (type == 'd') return;
 #endif
 
-#ifndef NO_FILESYSTEM
         const char *home = getenv("HOME");
         if (!home) return;
 
@@ -1766,7 +1765,6 @@ public:
         }
 
         fclose(f);
-#endif
     }
 
     void packFloat(const float *R__ re, const float *R__ im) {
