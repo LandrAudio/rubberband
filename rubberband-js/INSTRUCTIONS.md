@@ -16,5 +16,5 @@ The following instructions were only tested on macOS and are not expected to wor
     ```
     + Then generate the bindings:
         ```
-        emcc --bind -o rubberband.js rubberband-js/Exports.cpp -I. -Llib -lrubberband
+        emcc --bind -o rubberband.js rubberband-js/Exports.cpp -I. -Llib -lrubberband -s SINGLE_FILE=1 -s BINARYEN_ASYNC_COMPILATION=0 -s WASM=1 --post-js rubberband-js/em-es6-module.js
         ```
