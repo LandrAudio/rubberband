@@ -4,6 +4,21 @@
 using namespace emscripten;
 using namespace RubberBand;
 
+void RubberBandStretcher_process(RubberBandStretcher& self, uintptr_t input, size_t samples, bool final)
+{
+    self.process(reinterpret_cast<const float* const*>(input), samples, final);
+}
+
+void RubberBandStretcher_study(RubberBandStretcher& self, uintptr_t input, size_t samples, bool final)
+{
+    self.study(reinterpret_cast<const float* const*>(input), samples, final);
+}
+
+size_t RubberBandStretcher_retrieve(RubberBandStretcher& self, uintptr_t output, size_t samples)
+{
+    return self.retrieve(reinterpret_cast<float* const*>(output), samples);
+}
+
 EMSCRIPTEN_BINDINGS(rubberband) {
     enum_<RubberBandStretcher::Option>("Option")
         .value("ProcessOffline", RubberBandStretcher::OptionProcessOffline)
@@ -57,10 +72,10 @@ EMSCRIPTEN_BINDINGS(rubberband) {
         .function("setMaxProcessSize", &RubberBandStretcher::setMaxProcessSize)
         .function("getSamplesRequired", &RubberBandStretcher::getSamplesRequired)
         .function("setKeyFrameMap", &RubberBandStretcher::setKeyFrameMap)
-        .function("study", &RubberBandStretcher::study, allow_raw_pointers())
-        .function("process", &RubberBandStretcher::process, allow_raw_pointers())
+        .function("study", &RubberBandStretcher_study)
+        .function("process", &RubberBandStretcher_process)
         .function("available", &RubberBandStretcher::available)
-        .function("retrieve", &RubberBandStretcher::retrieve, allow_raw_pointers())
+        .function("retrieve", &RubberBandStretcher_retrieve)
         .function("getFrequencyCutoff", &RubberBandStretcher::getFrequencyCutoff)
         .function("setFrequencyCutoff", &RubberBandStretcher::setFrequencyCutoff)
         .function("getInputIncrement", &RubberBandStretcher::getInputIncrement)
@@ -72,4 +87,8 @@ EMSCRIPTEN_BINDINGS(rubberband) {
         .function("setDebugLevel", &RubberBandStretcher::setDebugLevel)
         .function("setDefaultDebugLevel", &RubberBandStretcher::setDefaultDebugLevel)
         ;
+
+    register_vector<int>("vector<int>");
+    register_vector<float>("vector<float>");
+    register_map<size_t, size_t>("map<size_t, size_t>");
 }
