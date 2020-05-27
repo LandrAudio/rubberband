@@ -1,22 +1,46 @@
 #include <rubberband/RubberBandStretcher.h>
 #include <emscripten/bind.h>
 
+#include <vector>
+
 using namespace emscripten;
 using namespace RubberBand;
 
-void RubberBandStretcher_process(RubberBandStretcher& self, uintptr_t input, size_t samples, bool final)
+// fixme: getting out of bounds accesses with this, is the pointer not right?
+void RubberBandStretcher_process(RubberBandStretcher& self, uintptr_t input_flat_ptr, size_t samples, int channels, bool final)
 {
-    self.process(reinterpret_cast<const float* const*>(input), samples, final);
+    auto* input_flat = reinterpret_cast<float*>(input_flat_ptr);
+
+    std::vector<float*> input;
+    for (int i = 0; i < channels; ++i) {
+        input.push_back(&input_flat[samples * i]);
+    }
+
+    self.process(&input[0], samples, final);
 }
 
-void RubberBandStretcher_study(RubberBandStretcher& self, uintptr_t input, size_t samples, bool final)
+void RubberBandStretcher_study(RubberBandStretcher& self, uintptr_t input_flat_ptr, size_t samples, int channels, bool final)
 {
-    self.study(reinterpret_cast<const float* const*>(input), samples, final);
+    auto* input_flat = reinterpret_cast<float*>(input_flat_ptr);
+
+    std::vector<float*> input;
+    for (int i = 0; i < channels; ++i) {
+        input.push_back(&input_flat[samples * i]);
+    }
+
+    self.study(&input[0], samples, final);
 }
 
-size_t RubberBandStretcher_retrieve(RubberBandStretcher& self, uintptr_t output, size_t samples)
+size_t RubberBandStretcher_retrieve(RubberBandStretcher& self, uintptr_t output_flat_ptr, size_t samples, int channels)
 {
-    return self.retrieve(reinterpret_cast<float* const*>(output), samples);
+    auto* output_flat = reinterpret_cast<float*>(output_flat_ptr);
+
+    std::vector<float*> output;
+    for (int i = 0; i < channels; ++i) {
+        output.push_back(&output_flat[samples * i]);
+    }
+
+    return self.retrieve(&output[0], samples);
 }
 
 EMSCRIPTEN_BINDINGS(rubberband) {
