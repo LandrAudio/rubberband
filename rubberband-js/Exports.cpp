@@ -6,7 +6,6 @@
 using namespace emscripten;
 using namespace RubberBand;
 
-// fixme: getting out of bounds accesses with this, is the pointer not right?
 void RubberBandStretcher_process(RubberBandStretcher& self, uintptr_t input_flat_ptr, size_t samples, int channels, bool final)
 {
     auto* input_flat = reinterpret_cast<float*>(input_flat_ptr);
