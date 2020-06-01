@@ -16,6 +16,6 @@ The following instructions were only tested on macOS and are not expected to wor
     ```
     + Then generate the bindings:
         ```
-        emcc -O3 --llvm-lto 3 --llvm-opts 3 --bind -o rubberband.js rubberband-js/exports.cpp -I. -Llib -lrubberband -s SINGLE_FILE=1 -s BINARYEN_ASYNC_COMPILATION=0 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 --pre-js rubberband-js/pre.js
+        emcc -O3 --llvm-lto 3 --llvm-opts 3 --bind -o rubberband.js rubberband-js/exports.cpp -I. -Llib -lrubberband -s SINGLE_FILE=1 -s BINARYEN_ASYNC_COMPILATION=0 -s WASM=1 -s INITIAL_MEMORY=33554432 --pre-js rubberband-js/pre.js
         echo "export default Module;" >> rubberband.js
         ```
