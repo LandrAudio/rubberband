@@ -6,40 +6,22 @@
 using namespace emscripten;
 using namespace RubberBand;
 
-void RubberBandStretcher_process(RubberBandStretcher& self, uintptr_t input_flat_ptr, size_t samples, int channels, bool final)
+void RubberBandStretcher_process(RubberBandStretcher& self, val input_arr, size_t samples, int channels, bool final)
 {
-    auto* input_flat = reinterpret_cast<float*>(input_flat_ptr);
-
-    std::vector<float*> input;
-    for (int i = 0; i < channels; ++i) {
-        input.push_back(&input_flat[samples * i]);
-    }
-
-    self.process(&input[0], samples, final);
+    auto input = vecFromJSArray<uintptr_t>(input_arr);
+    self.process(reinterpret_cast<float**>(&input[0]), samples, final);
 }
 
-void RubberBandStretcher_study(RubberBandStretcher& self, uintptr_t input_flat_ptr, size_t samples, int channels, bool final)
+void RubberBandStretcher_study(RubberBandStretcher& self, val input_arr, size_t samples, int channels, bool final)
 {
-    auto* input_flat = reinterpret_cast<float*>(input_flat_ptr);
-
-    std::vector<float*> input;
-    for (int i = 0; i < channels; ++i) {
-        input.push_back(&input_flat[samples * i]);
-    }
-
-    self.study(&input[0], samples, final);
+    auto input = vecFromJSArray<uintptr_t>(input_arr);
+    self.study(reinterpret_cast<float**>(&input[0]), samples, final);
 }
 
-size_t RubberBandStretcher_retrieve(RubberBandStretcher& self, uintptr_t output_flat_ptr, size_t samples, int channels)
+size_t RubberBandStretcher_retrieve(RubberBandStretcher& self, val output_arr, size_t samples, int channels)
 {
-    auto* output_flat = reinterpret_cast<float*>(output_flat_ptr);
-
-    std::vector<float*> output;
-    for (int i = 0; i < channels; ++i) {
-        output.push_back(&output_flat[samples * i]);
-    }
-
-    return self.retrieve(&output[0], samples);
+    auto output = vecFromJSArray<uintptr_t>(output_arr);
+    return self.retrieve(reinterpret_cast<float**>(&output[0]), samples);
 }
 
 EMSCRIPTEN_BINDINGS(rubberband) {
